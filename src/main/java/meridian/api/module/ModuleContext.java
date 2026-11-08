@@ -1,6 +1,7 @@
 package meridian.api.module;
 
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.concurrent.Executor;
 import javax.swing.JPanel;
 import meridian.api.event.EventBus;
@@ -95,5 +96,26 @@ public interface ModuleContext {
      * @param usage what to type, for {@code help}
      */
     default void registerCommand(String name, String usage, meridian.api.command.ControlCommand command) {
+    }
+
+    /**
+     * The game installation the proxy works with, when it knows it: the build's game folder
+     * ({@code install/<version>/package/game/latest}, which holds {@code Assets.zip} and
+     * {@code Server/}). The launcher names the build it started; a proxy run in place of the
+     * game's server, or in front of a single-player world, knows its own. Empty otherwise - a
+     * reader of the game's files then looks for an installation itself.
+     *
+     * <p>A fact about this machine, nothing more: the proxy reads no game file itself.
+     */
+    default Optional<Path> gameDirectory() {
+        return Optional.empty();
+    }
+
+    /**
+     * The game's user folder ({@code UserData}: saves, logs, the files the game downloaded from
+     * servers), when the proxy knows it - see {@link #gameDirectory()}.
+     */
+    default Optional<Path> gameUserDirectory() {
+        return Optional.empty();
     }
 }
