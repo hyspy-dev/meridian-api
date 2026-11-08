@@ -86,4 +86,14 @@ public interface ModuleContext {
      * services here, Layer-2 modules consume them.
      */
     ServiceRegistry services();
+
+    /**
+     * Offers a command on the proxy's command channel ({@code <name> <conn> <args...>}), for the
+     * connection this module instance serves. A proxy without a command channel ignores it.
+     *
+     * @param name  the first word of the line; one module per name
+     * @param usage what to type, for {@code help}
+     */
+    default void registerCommand(String name, String usage, meridian.api.command.ControlCommand command) {
+    }
 }

@@ -50,6 +50,18 @@ public interface ProxySession {
     /** Pre-framed {@code [len|id|payload]} write to the server. */
     void sendRawToServer(ByteBuf framed);
 
+    /**
+     * The client this session stands in for when no game is behind it - a headless connection the
+     * proxy opened itself - or {@code null} for an ordinary one with a game client.
+     *
+     * <p>A headless session's server still expects a client: whoever implements the game's side of
+     * the conversation (core does) answers what the game would, through
+     * {@link HeadlessClient#sendAsClient}.
+     */
+    default HeadlessClient headless() {
+        return null;
+    }
+
     /** Module-scoped state attached to this session, keyed by type. */
     <T> T getAttachment(Class<T> type);
 
